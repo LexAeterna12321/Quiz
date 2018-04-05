@@ -1,0 +1,52 @@
+# var with our input responses
+names_list =[]
+# will be useful to count or win in percents
+percents = 0
+# var holding good answers
+correct_responses = ""
+# var holding bad answers
+incorrect_responses = ""
+print("list any 5 of the first 20 elements in the Period table\n")
+# function getting our inputs and places them in a list. Proof against empty strings and repetition.
+def get_names():
+    # 5 unique answers
+    while len(names_list) != 5:
+        name = input("Enter the name of an element: ")
+        for n in names_list:
+            if n.lower() == name.lower():
+                print(name,"was already entered")
+                names_list.remove(name)
+        if name == "":
+            print("empty strings are not allowed")
+        elif name != names_list:
+            names_list.append(name.lower())
+    return names_list
+# it won't run in pycharm, will run in jupyter notebook thou.
+# gettin a file, open it.
+!curl https://raw.githubusercontent.com/MicrosoftLearning/intropython/master/elements1_20.txt -o "elements1_20.txt"
+elements = open("elements1_20.txt", "r")
+empty_list = ""
+# getting first element to el1
+el1 = elements.readline()
+# reseting the pointer
+elements.seek(0)
+list_items =[]
+while el1:
+    for item in elements:
+        # every item in elements is converted to lower and stripped from \n and whitespaces
+        empty_list = item.lower().strip()
+        #adding to list_items list
+        list_items.append(empty_list)
+    #going further the loop
+    el1 = elements.readline()
+
+get_names()
+
+for item in get_names():
+    if item in list_items:
+        percents += 1
+        correct_responses += "  " + item.title() + "  "
+    else:
+        incorrect_responses += "  " + item.title() + "  "
+
+print(percents/5*100,"% correct\n\nFound:",correct_responses,"\n\nNotFound:",incorrect_responses)
